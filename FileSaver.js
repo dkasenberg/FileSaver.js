@@ -26,7 +26,13 @@ define([], function() {
 				return view.URL || view.webkitURL || view;
 			}
 			, URL = view.URL || view.webkitURL || view
-			, save_link = doc.createElementNS("http://www.w3.org/1999/xhtml", "a")
+			, save_link = function() {
+                            try {
+                                return doc.createElementNS("http://www.w3.org/1999/xhtml", "a");
+                            } catch( e ) {
+                                return doc.createElement('a');
+                            }
+                        }.call(this)
 			, can_use_save_link = "download" in save_link
 			, click = function(node) {
 				var event = doc.createEvent("MouseEvents");
@@ -213,7 +219,11 @@ define([], function() {
 		FS_proto.onwriteend =
 			null;
 
-		view.addEventListener("unload", process_deletion_queue, false);
+                try {
+		    view.addEventListener("unload", process_deletion_queue, false);
+                } catch(e) {
+                    console.log('wat');
+                }
 		return saveAs;
 	}(self));
 
