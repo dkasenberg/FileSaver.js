@@ -222,7 +222,7 @@ define([], function() {
                 try {
 		    view.addEventListener("unload", process_deletion_queue, false);
                 } catch(e) {
-                    console.log('wat');
+                    console.warn('FileSaver.js probably will not work');
                 }
 		return saveAs;
 	}(self));
